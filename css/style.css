@@ -766,11 +766,14 @@ body.dark-mode .home-bg {
 
 .home-bg .home .slide {
    position: relative;
-   height: 85vh;
+   min-height: 85vh;
+   height: auto;
    display: flex;
    align-items: center;
    justify-content: flex-start;
-   overflow: hidden;
+   overflow: visible;
+   /* Prevent cropping of floating elements */
+   padding: 10rem 0;
 }
 
 .home-bg .home .slide .image {

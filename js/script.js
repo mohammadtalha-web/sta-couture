@@ -21,28 +21,35 @@ window.onscroll = () => {
 }
 
 // Dark Mode Toggle Logic
-const darkToggle = document.querySelector('#dark-mode-toggle');
-
-if (darkToggle) {
+const initTheme = () => {
+    const darkToggle = document.querySelector('#dark-mode-toggle');
     const currentTheme = localStorage.getItem('theme');
 
     if (currentTheme) {
         document.body.classList.add(currentTheme);
-        if (currentTheme === 'dark-mode') {
+        if (darkToggle && currentTheme === 'dark-mode') {
             darkToggle.checked = true;
         }
     }
 
-    darkToggle.addEventListener('change', function () {
-        if (this.checked) {
-            document.body.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light-mode');
-        }
-    });
-}
+    if (darkToggle) {
+        darkToggle.addEventListener('change', function () {
+            if (this.checked) {
+                document.body.classList.remove('light-mode');
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light-mode');
+            }
+        });
+    }
+};
+
+// Execute theme init immediately and on DOM content loaded
+initTheme();
+document.addEventListener('DOMContentLoaded', initTheme);
 
 /* --- LIVE SEARCH LOGIC --- */
 
