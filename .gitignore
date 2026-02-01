@@ -1,0 +1,18 @@
+# Database files
+*.sql
+*.sqlite
+
+# Uploaded content (usually unique to each installation)
+uploaded_img/*
+!uploaded_img/.gitkeep
+
+# Local environment files
+.env
+db_audit.php
+db_audit_simple.php
+audit_log.txt
+audit_log_utf8.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
