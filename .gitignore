@@ -1,5 +1,4 @@
 # Database files
-*.sql
 *.sqlite
 
 # Uploaded content (usually unique to each installation)
