@@ -62,10 +62,11 @@ if(isset($_POST['update_qty'])){
       <div class="cart-items-container">
          <?php
             $grand_total = 0;
-            $select_cart = $conn->prepare("SELECT c.*, p.p_code FROM `cart` c LEFT JOIN `products` p ON c.pid = p.id WHERE c.user_id = ?");
-            $select_cart->execute([$user_id]);
-            if($select_cart->rowCount() > 0){
-               while($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)){
+            try {
+               $select_cart = $conn->prepare("SELECT c.*, p.p_code FROM `cart` c LEFT JOIN `products` p ON c.pid = p.id WHERE c.user_id = ?");
+               $select_cart->execute([$user_id]);
+               if($select_cart->rowCount() > 0){
+                  while($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)){
          ?>
          <form action="" method="post" class="cart-item">
             <input type="hidden" name="cart_id" value="<?= $fetch_cart['id']; ?>">
@@ -90,13 +91,19 @@ if(isset($_POST['update_qty'])){
             </div>
          </form>
          <?php
-            $grand_total += $sub_total;
+                  $grand_total += $sub_total;
+                  }
+               }else{
+                  echo '<div class="empty-cart-box">
+                     <i class="fas fa-shopping-bag"></i>
+                     <p>Your sanctuary is currently empty.</p>
+                     <a href="shop.php" class="btn">DISCOVER PIECES</a>
+                  </div>';
                }
-            }else{
+            } catch (Exception $e) {
                echo '<div class="empty-cart-box">
-                  <i class="fas fa-shopping-bag"></i>
-                  <p>Your sanctuary is currently empty.</p>
-                  <a href="shop.php" class="btn">DISCOVER PIECES</a>
+                  <i class="fas fa-sync-alt fa-spin"></i>
+                  <p>Synchronizing cart data...</p>
                </div>';
             }
          ?>

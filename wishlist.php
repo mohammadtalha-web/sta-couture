@@ -83,48 +83,52 @@ if(isset($_POST['add_all_to_cart'])){
 
    <?php
       $grand_total = 0;
-      $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE user_id = ?");
-      $select_wishlist->execute([$user_id]);
-      if($select_wishlist->rowCount() > 0){
-         while($fetch_wishlist = $select_wishlist->fetch(PDO::FETCH_ASSOC)){
-            $grand_total += $fetch_wishlist['price'];  
-   ?>
-   <form action="" method="post" class="wishlist-box">
-      <input type="hidden" name="pid" value="<?= $fetch_wishlist['pid']; ?>">
-      <input type="hidden" name="wishlist_id" value="<?= $fetch_wishlist['id']; ?>">
-      <input type="hidden" name="name" value="<?= $fetch_wishlist['name']; ?>">
-      <input type="hidden" name="price" value="<?= $fetch_wishlist['price']; ?>">
-      <input type="hidden" name="image" value="<?= $fetch_wishlist['image']; ?>">
-      
-      <div class="image-frame">
-         <a href="quick_view.php?pid=<?= $fetch_wishlist['pid']; ?>">
-            <img src="uploaded_img/<?= $fetch_wishlist['image']; ?>" alt="">
-         </a>
-         <button class="remove-btn" type="submit" name="delete" onclick="return confirm('Remove this piece from your collection?');">
-            <i class="fas fa-times"></i>
-         </button>
-      </div>
-
-      <div class="content">
-         <span class="curated-label">Curated Piece</span>
-         <div class="name"><?= $fetch_wishlist['name']; ?></div>
+      try {
+         $select_wishlist = $conn->prepare("SELECT * FROM `wishlist` WHERE user_id = ?");
+         $select_wishlist->execute([$user_id]);
+         if($select_wishlist->rowCount() > 0){
+            while($fetch_wishlist = $select_wishlist->fetch(PDO::FETCH_ASSOC)){
+               $grand_total += $fetch_wishlist['price'];  
+      ?>
+      <form action="" method="post" class="wishlist-box">
+         <input type="hidden" name="pid" value="<?= $fetch_wishlist['pid']; ?>">
+         <input type="hidden" name="wishlist_id" value="<?= $fetch_wishlist['id']; ?>">
+         <input type="hidden" name="name" value="<?= $fetch_wishlist['name']; ?>">
+         <input type="hidden" name="price" value="<?= $fetch_wishlist['price']; ?>">
+         <input type="hidden" name="image" value="<?= $fetch_wishlist['image']; ?>">
          
-         <div class="details-row">
-            <div class="price"><span>৳</span><?= $fetch_wishlist['price']; ?><span>/-</span></div>
-            <div class="qty-control">
-               <input type="number" name="qty" class="qty" min="1" max="99" onkeypress="if(this.value.length == 2) return false;" value="1">
-            </div>
+         <div class="image-frame">
+            <a href="quick_view.php?pid=<?= $fetch_wishlist['pid']; ?>">
+               <img src="uploaded_img/<?= $fetch_wishlist['image']; ?>" alt="">
+            </a>
+            <button class="remove-btn" type="submit" name="delete" onclick="return confirm('Remove this piece from your collection?');">
+               <i class="fas fa-times"></i>
+            </button>
          </div>
-
-         <input type="submit" value="ADD TO CART" class="btn premium-btn" name="add_to_cart">
-      </div>
-   </form>
-   <?php
+   
+         <div class="content">
+            <span class="curated-label">Curated Piece</span>
+            <div class="name"><?= $fetch_wishlist['name']; ?></div>
+            
+            <div class="details-row">
+               <div class="price"><span>৳</span><?= $fetch_wishlist['price']; ?><span>/-</span></div>
+               <div class="qty-control">
+                  <input type="number" name="qty" class="qty" min="1" max="99" onkeypress="if(this.value.length == 2) return false;" value="1">
+               </div>
+            </div>
+   
+            <input type="submit" value="ADD TO CART" class="btn premium-btn" name="add_to_cart">
+         </div>
+      </form>
+      <?php
+            }
+         }else{
+            $show_empty = true;
+         }
+      } catch (Exception $e) {
+         $show_empty = true; // Fallback to empty state on error
       }
-   }else{
-      $show_empty = true;
-   }
-   ?>
+      ?>
    </div>
 
    <?php
