@@ -96,10 +96,11 @@ if(isset($_POST['submit_review'])){
    <div class="swiper-wrapper">
 
    <?php
-      $select_reviews = $conn->prepare("SELECT * FROM `reviews` ORDER BY created_at DESC LIMIT 10");
-      $select_reviews->execute();
-      if($select_reviews->rowCount() > 0){
-         while($fetch_reviews = $select_reviews->fetch(PDO::FETCH_ASSOC)){
+      try {
+         $select_reviews = $conn->prepare("SELECT * FROM `reviews` ORDER BY created_at DESC LIMIT 10");
+         $select_reviews->execute();
+         if($select_reviews->rowCount() > 0){
+            while($fetch_reviews = $select_reviews->fetch(PDO::FETCH_ASSOC)){
    ?>
       <div class="swiper-slide slide luxury-review-card">
          <div class="review-quote"><i class="fas fa-quote-left"></i></div>
@@ -120,9 +121,12 @@ if(isset($_POST['submit_review'])){
          </div>
       </div>
    <?php
+            }
+         }else{
+            echo '<p class="empty">no reviews added yet!</p>';
          }
-      }else{
-         echo '<p class="empty">no reviews added yet!</p>';
+      } catch (Exception $e) {
+         echo '<p class="empty">Testimonials coming soon...</p>';
       }
    ?>
 
