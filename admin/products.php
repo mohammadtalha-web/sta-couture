@@ -27,19 +27,20 @@ if(isset($_POST['add_product'])){
    $image_01 = filter_var($image_01, FILTER_SANITIZE_STRING);
    $image_size_01 = $_FILES['image_01']['size'];
    $image_tmp_name_01 = $_FILES['image_01']['tmp_name'];
-   $image_folder_01 = '../uploaded_img/'.$image_01;
+   // Use Absolute Path for Linux/Pro Hosting Compatibility
+   $image_folder_01 = dirname(__DIR__) . '/uploaded_img/' . $image_01;
 
    $image_02 = $_FILES['image_02']['name'];
    $image_02 = filter_var($image_02, FILTER_SANITIZE_STRING);
    $image_size_02 = $_FILES['image_02']['size'];
    $image_tmp_name_02 = $_FILES['image_02']['tmp_name'];
-   $image_folder_02 = '../uploaded_img/'.$image_02;
+   $image_folder_02 = dirname(__DIR__) . '/uploaded_img/' . $image_02;
 
    $image_03 = $_FILES['image_03']['name'];
    $image_03 = filter_var($image_03, FILTER_SANITIZE_STRING);
    $image_size_03 = $_FILES['image_03']['size'];
    $image_tmp_name_03 = $_FILES['image_03']['tmp_name'];
-   $image_folder_03 = '../uploaded_img/'.$image_03;
+   $image_folder_03 = dirname(__DIR__) . '/uploaded_img/' . $image_03;
 
    $select_products = $conn->prepare("SELECT * FROM `products` WHERE name = ?");
    $select_products->execute([$name]);
