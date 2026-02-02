@@ -101,34 +101,34 @@ if(isset($_POST['submit_review'])){
          $select_reviews->execute();
          if($select_reviews->rowCount() > 0){
             while($fetch_reviews = $select_reviews->fetch(PDO::FETCH_ASSOC)){
-   ?>
-      <div class="swiper-slide slide luxury-review-card">
-         <div class="review-quote"><i class="fas fa-quote-left"></i></div>
-         <p class="comment"><?= $fetch_reviews['comment']; ?></p>
-         <div class="reviewer-meta">
-            <div class="stars">
-               <?php
-                  for($i=1; $i<=5; $i++){
-                     if($i <= $fetch_reviews['rating']){
-                        echo '<i class="fas fa-star accent-star"></i>';
-                     }else{
-                        echo '<i class="far fa-star accent-star"></i>';
+      ?>
+         <div class="swiper-slide slide luxury-review-card">
+            <div class="review-quote"><i class="fas fa-quote-left"></i></div>
+            <p class="comment"><?= $fetch_reviews['comment']; ?></p>
+            <div class="reviewer-meta">
+               <div class="stars">
+                  <?php
+                     for($i=1; $i<=5; $i++){
+                        if($i <= $fetch_reviews['rating']){
+                           echo '<i class="fas fa-star accent-star"></i>';
+                        }else{
+                           echo '<i class="far fa-star accent-star"></i>';
+                        }
                      }
-                  }
-               ?>
+                  ?>
+               </div>
+               <h3 class="reviewer-name"><?= $fetch_reviews['name']; ?></h3>
             </div>
-            <h3 class="reviewer-name"><?= $fetch_reviews['name']; ?></h3>
          </div>
-      </div>
-   <?php
+      <?php
             }
          }else{
             echo '<p class="empty">no reviews added yet!</p>';
          }
       } catch (Exception $e) {
-         echo '<p class="empty">Testimonials coming soon...</p>';
+         echo '<p class="empty">Client accolades manifesting soon...</p>';
       }
-   ?>
+      ?>
 
    </div>
 
