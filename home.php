@@ -152,10 +152,11 @@ foreach($categories as $cat_slug => $cat_name):
    <div class="swiper-wrapper">
 
    <?php
-     $select_products = $conn->prepare("SELECT * FROM `products` WHERE category = ? ORDER BY id DESC LIMIT 12"); 
-     $select_products->execute([$cat_slug]);
-     if($select_products->rowCount() > 0){
-      while($fetch_product = $select_products->fetch(PDO::FETCH_ASSOC)){
+     try {
+        $select_products = $conn->prepare("SELECT * FROM `products` WHERE category = ? ORDER BY id DESC LIMIT 12"); 
+        $select_products->execute([$cat_slug]);
+        if($select_products->rowCount() > 0){
+         while($fetch_product = $select_products->fetch(PDO::FETCH_ASSOC)){
    ?>
    <form action="" method="post" class="swiper-slide slide">
       <input type="hidden" name="pid" value="<?= $fetch_product['id']; ?>">
@@ -173,10 +174,13 @@ foreach($categories as $cat_slug => $cat_name):
       <input type="submit" value="add to cart" class="btn" name="add_to_cart">
    </form>
    <?php
+         }
+      }else{
+         echo '<p class="empty">no products in this category yet!</p>';
       }
-   }else{
-      echo '<p class="empty">no products in this category yet!</p>';
-   }
+     } catch (Exception $e) {
+        echo '<p class="empty">Collection manifesting soon...</p>';
+     }
    ?>
 
    </div>
